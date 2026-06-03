@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: fast-api-v
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: CORS_ALLOW_ORIGINS
+        value: https://todo-finalboss.onrender.com
+      - key: DATABASE_URL
+        sync: false
+      - key: API_BEARER_TOKEN
+        generateValue: true
+      - key: TODO_SYNC_DEFAULT_USER_TOKEN
+        value: emmanuel_main
+      - key: TODO_SYNC_DEFAULT_EMAIL
+        value: emmabarca123@gmail.com
+      - key: TODO_SYNC_ALLOWED_EMAILS
+        value: emmabarca123@gmail.com
+      - key: TODO_SYNC_NOTE_WINDOW_DAYS
+        value: "92"
+      - key: TODO_SYNC_HTTP_TIMEOUT_SEC
+        value: "8"
