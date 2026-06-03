@@ -654,3 +654,70 @@ def todo_sync_export(user: SyncUser = Depends(verify_sync_user)):
                 attachment_limit=5000,
             )
     return {"ok": True, "server_time": utc_now_iso(), **result}
+    
+    
+    
+    # ==========================
+# DEBUG ENDPOINTS
+# ==========================
+
+import logging
+
+logger = logging.getLogger("debug")
+
+@app.get("/debug-version")
+def debug_version():
+    logger.info("DEBUG_VERSION called")
+
+    return {
+        "ok": True,
+        "build": "debug-v2",
+        "service": "todo-sync-api",
+        "server_time": utc_now_iso()
+    }
+
+
+@app.get("/debug-routes")
+def debug_routes():
+    logger.info("DEBUG_ROUTES called")
+
+    routes = []
+
+    for route in app.routes:
+        routes.append({
+            "path": getattr(route, "path", ""),
+            "name": getattr(route, "name", ""),
+            "methods": list(getattr(route, "methods", []))
+        })
+
+    return {
+        "ok": True,
+        "count": len(routes),
+        "routes": routes
+    }
+
+
+@app.get("/debug-db")
+def debug_db():
+    logger.info("DEBUG_DB called")
+
+    try:
+        with pg_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT NOW() as now, current_database() as db, current_user as usr"
+                )
+                row = cur.fetchone()
+
+        return {
+            "ok": True,
+            "database": row
+        }
+
+    except Exception as e:
+        logger.exception("DATABASE ERROR")
+
+        return {
+            "ok": False,
+            "error": str(e)
+        }
