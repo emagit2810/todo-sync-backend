@@ -23,7 +23,7 @@ TODO_SYNC_DEFAULT_EMAIL=emmabarca123@gmail.com
 TODO_SYNC_ALLOWED_EMAILS=emmabarca123@gmail.com
 TODO_SYNC_NOTE_WINDOW_DAYS=92
 TODO_SYNC_HTTP_TIMEOUT_SEC=8
-CORS_ALLOW_ORIGINS=https://todo-finalboss.onrender.com
+CORS_ALLOW_ORIGINS=https://todo-finalboss.onrender.com,https://todo-celular-prototipo.onrender.com
 ```
 
 The included `render.yaml` Blueprint asks for `DATABASE_URL` in the Render

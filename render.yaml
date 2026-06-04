@@ -10,7 +10,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: CORS_ALLOW_ORIGINS
-        value: https://todo-finalboss.onrender.com
+        value: https://todo-finalboss.onrender.com,https://todo-celular-prototipo.onrender.com
       - key: DATABASE_URL
         sync: false
       - key: API_BEARER_TOKEN

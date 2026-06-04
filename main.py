@@ -11,13 +11,26 @@ from pydantic import BaseModel, Field, validator
 
 app = FastAPI(title="Todo Sync API", version="1.0.0")
 
+DEFAULT_CORS_ORIGINS = {
+    "https://todo-finalboss.onrender.com",
+    "https://todo-celular-prototipo.onrender.com",
+}
+
+
+def get_cors_origins() -> List[str]:
+    configured = {
+        origin.strip()
+        for origin in os.getenv("CORS_ALLOW_ORIGINS", "").split(",")
+        if origin.strip()
+    }
+    if not configured:
+        return ["*"]
+    configured.update(DEFAULT_CORS_ORIGINS)
+    return sorted(configured)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        origin.strip()
-        for origin in os.getenv("CORS_ALLOW_ORIGINS", "*").split(",")
-        if origin.strip()
-    ],
+    allow_origins=get_cors_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
